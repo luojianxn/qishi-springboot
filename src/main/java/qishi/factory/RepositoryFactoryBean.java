@@ -10,6 +10,9 @@ import org.springframework.data.repository.core.support.RepositoryFactorySupport
 
 import javax.persistence.EntityManager;
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 import qishi.repositoryImp.CommonRepositoryImp;
 public class RepositoryFactoryBean<R extends JpaRepository<T,I>,T,I extends Serializable> extends JpaRepositoryFactoryBean {
 
@@ -24,8 +27,9 @@ public class RepositoryFactoryBean<R extends JpaRepository<T,I>,T,I extends Seri
 
         public CommonRepositoryFactory( EntityManager em) {
             super(em);
-            System.out.println("CommonRepositoryFactory create");
             this.em = em;
+            System.out.println("CommonRepositoryFactory create");
+
         }
 
         @Override
