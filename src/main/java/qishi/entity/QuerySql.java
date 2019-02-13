@@ -18,6 +18,8 @@ public class QuerySql {
     private String sqlname;
    @Column(name = "sqltext", nullable = false)
     private String sqltext;
+    @Column(name = "pagesize", nullable = false)
+    private int pagesize;
 
     public QuerySql() {
 
@@ -45,5 +47,13 @@ public class QuerySql {
 
     public void setSqltext(String sqltext) {
         this.sqltext = sqltext;
+    }
+
+    public int getPagesize() {
+        return pagesize;
+    }
+
+    public void setPagesize(int pagesize) {
+        this.pagesize = pagesize;
     }
 }

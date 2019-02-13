@@ -1,5 +1,8 @@
 package qishi.sqlset;
 
+import qishi.entity.QuerySql;
+import qishi.entity.SpParam;
+
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +16,6 @@ public interface Setting {
    boolean  refresh();
    boolean  read();
    List  printCache();
-   String getSqlText(String sqlId);
-   List getParamsMap(String spName);
+   QuerySql getQuerySql(String sqlName);
+   List<SpParam> getParamsMap(String spName);
 }

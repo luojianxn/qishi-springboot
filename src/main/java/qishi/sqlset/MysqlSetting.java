@@ -23,9 +23,9 @@ import java.util.Map;
 @Scope("singleton")
 public class MysqlSetting implements Setting {
 
-    static private Map sqlStringCache;
+    static private HashMap<String,QuerySql> sqlStringCache;
 
-    static private Map sqlParamCache;
+    static private HashMap<String,List<SpParam>> sqlParamCache;
 
     private boolean isInited;
 
@@ -57,13 +57,14 @@ public class MysqlSetting implements Setting {
 
     @Override
     public boolean read() {
-      List<Map> querySqls=setRepo.listMapBySQL("select SQLNAME,SQLTEXT from tsql where active='Y' order by insertdate limit 0,100");
+      List<Map> querySqls=setRepo.listMapBySQL("select SQLNAME,SQLTEXT,PAGESIZE from tsql where active='Y' order by insertdate limit 0,100");
           if(querySqls.size()==0) return false;
           for(int i=0;i<querySqls.size();i++) {
-                HashMap<String,String> sql=( HashMap<String,String>)querySqls.get(i);
+                HashMap<String,Object> sql=( HashMap<String,Object>)querySqls.get(i);
                 QuerySql querySql=new QuerySql();
                 querySql.setSqlname(sql.get("SQLNAME").toString());
-                querySql.setSqltext(sql.get("SQLTEXT").toString());
+                querySql.setSqltext(sql.get("SQLTEXT").toString().toUpperCase());
+                querySql.setPagesize((Integer) sql.get("PAGESIZE"));
                 sqlStringCache.put(sql.get("SQLNAME").toString(),querySql);
             }
         querySqls=null;
@@ -103,16 +104,16 @@ public class MysqlSetting implements Setting {
     };
 
     @Override
-    public  String getSqlText(String sqlId){
-      if(sqlStringCache!=null&&sqlStringCache.containsKey(sqlId))
-          return sqlStringCache.get(sqlId).toString();
+    public  QuerySql getQuerySql(String sqlName){
+      if(sqlStringCache!=null&&sqlStringCache.containsKey(sqlName))
+          return sqlStringCache.get(sqlName);
       return null;
     };
 
     @Override
-    public List getParamsMap(String spName){
+    public List<SpParam> getParamsMap(String spName){
         if(sqlStringCache!=null&&sqlStringCache.containsKey(spName))
-           return (List)sqlStringCache.get(spName);
+           return (List<SpParam>)sqlStringCache.get(spName);
      return null;
     };
 }

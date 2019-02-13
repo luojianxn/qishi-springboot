@@ -6,7 +6,7 @@ import java.util.Map;
 public interface CommonServiceITF {
     public void loginIn();
     public void loginOut();
-    public List<Map> test();
+    public List<Map> test(Map<String,String> paraMap);
     public List<Map> getData(String sqlId);
 
 }

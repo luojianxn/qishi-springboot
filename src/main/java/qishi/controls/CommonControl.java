@@ -23,6 +23,11 @@ public class CommonControl {
     @Autowired
     Setting cahe;
 
+    public CommonControl(){
+
+        //if(!cahe.isInited())  cahe.initialize();
+    }
+
     @RequestMapping(value={"/say"}, method={RequestMethod.POST,RequestMethod.GET})
      public List<Map> say(@RequestParam Map<String,String> paraMap){
         if(!cahe.isInited())  cahe.initialize();
@@ -30,8 +35,8 @@ public class CommonControl {
        }
     @RequestMapping(value={"/getData"}, method={RequestMethod.POST,RequestMethod.GET})
     public List<Map> getData(@RequestParam Map<String,String> paraMap){
-
-        return comomSer.test();
+        if(!cahe.isInited())  cahe.initialize();
+        return comomSer.test(paraMap);
     }
 
     @RequestMapping(value={"/excuteSp"}, method={RequestMethod.POST,RequestMethod.GET})
